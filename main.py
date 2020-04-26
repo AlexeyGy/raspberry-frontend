@@ -1,6 +1,6 @@
 # import cv2 as cv
 import numpy as np
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request, jsonify, Response, make_response, send_from_directory
 
 import cv2 as cv
 
@@ -46,10 +46,36 @@ def _recognize(img: np.ndarray) -> Response:
         return jsonify(rectangles)
 
 
+def _add_headers(resp: Response) -> Response:
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Access-Control-Allow-Methods'] = 'POST'
+    resp.headers['Access-Control-Allow-Headers'] = \
+        'Content-Type, Authorization'
+    return resp
+
+
+@app.route('/test', methods=['POST'])
+def test():
+    print(request.__dict__)
+    return _add_headers(make_response('ok'))
+
+
 @app.route('/upload', methods=['POST'])
-def main():
+def process():
+    # best info on this https://stackoverflow.com/questions/43871637/no-access-control-allow-origin-header-is-present-on-the-requested-resource-whe
     # _recognize_write_bounding_boxes(f)
     # resp = Response()
-    resp = _recognize(cv.imdecode(np.fromstring(request.files['img'].read(), np.uint8),cv.IMREAD_COLOR))
-    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp = _recognize(cv.imdecode(np.fromstring(
+        request.files['img'].read(), np.uint8), cv.IMREAD_COLOR))
+    _add_headers(resp)
     return resp
+
+
+@app.route('/', methods=['GET'])
+def main():
+    return send_from_directory('html', 'index.html')
+
+
+@app.route('/cert.pem', methods=['GET'])
+def cert():
+    return send_from_directory('html', 'key.pem')
