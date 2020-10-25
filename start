@@ -1,1 +1,6 @@
-FLASK_APP=main.py FLASK_ENV=development python3 -m flask run --host=0.0.0.0 --port=5000 --cert adhoc
+
+FLASK_APP=main.py FLASK_ENV=development python3 -m flask run --host=0.0.0.0 --port=5000 --cert adhoc --without-threads
+
+# Improvements
+# 1. port 443 https://superuser.com/questions/710253/allow-non-root-process-to-bind-to-port-80-and-443
+# 2. certificate https://pimylifeup.com/raspberry-pi-ssl-lets-encrypt/
