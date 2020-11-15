@@ -2,4 +2,7 @@
 
 ## running
 
-start with `./start`
+start with 
+``` bash
+./start
+```
