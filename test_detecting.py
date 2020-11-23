@@ -18,7 +18,6 @@ class TestDetection(unittest.TestCase):
         net.setPreferableTarget(cv.dnn.DNN_TARGET_CPU)
 
     def test_detect_givenFullBody_expectDetection(self):
-        # Read an image.
         img = cv.imread('test-images/person-exists.jpg')
         self.assertEqual(len(recognize(img)), 1)
 
