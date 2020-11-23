@@ -17,16 +17,16 @@ app = Flask(__name__, static_url_path='')
 # Load the model.
 # options: person-detection-retail-0013 face-detection-adas-0001
 model_name = 'person-detection-retail-0013'
+
 input_folder = 'model/'
 net = cv.dnn.readNet(input_folder + model_name + '.bin',
                      input_folder + model_name + '.xml')
 IMAGE_FORMAT = (544, 320)
 
-# Specify target device, cv.dnn.DNN_TARGET_MYRIAD for the Movidius and cv2.dnn.DNN_TARGET_CPU for the CPU
-net.setPreferableTarget(cv.dnn.DNN_TARGET_CPU)
+net.setPreferableTarget(cv.dnn.DNN_TARGET_MYRIAD)
 
 
-def _recognize(img: np.ndarray) -> Response:
+def recognize(img: np.ndarray) -> []:
     """
     recognizes and transforms an image
     """
@@ -60,7 +60,7 @@ def _recognize(img: np.ndarray) -> Response:
     return rectangles
 
 
-def _save_detection(rectangles, img: np.array):
+def _save_detection(rectangles, img: np.array, folder=OUTPUT_FOLDER):
     # save the image
     print(rectangles)
     if len(rectangles) > 0:
@@ -68,7 +68,7 @@ def _save_detection(rectangles, img: np.array):
             cv.rectangle(img, (rectangle[0], rectangle[1]),
                          (rectangle[2], rectangle[3]), color=(0, 255, 0))
             path_to_save_to = os.path.join(
-                OUTPUT_FOLDER, f'{datetime.datetime.now().isoformat()}.jpg')
+                folder, f'{datetime.datetime.now().isoformat()}.jpg')
 
             logging.info(f'saving detection to {path_to_save_to}')
             cv.imwrite(path_to_save_to, img)
@@ -82,7 +82,7 @@ def process():
         ),
         cv.IMREAD_COLOR
     )
-    rectangles = _recognize(img)
+    rectangles = recognize(img)
     _save_detection(rectangles, img)
     return jsonify(rectangles)
 
