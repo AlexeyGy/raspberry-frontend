@@ -13,14 +13,14 @@
   <div>
     <form action="./images">
       <input type="submit" value="Open snapshots" />
-  </form>
+    </form>
     <canvas id="drawings" style="z-index: 100; position: absolute;" width="640px" height="480px"></canvas>
     <div id="my_camera" style="width:640px; height:480px;">
     </div>
   </div>
 
   <script language="JavaScript">
-    Webcam.set('constraints',{ facingMode: "environment"});
+    Webcam.set('constraints', { facingMode: "environment" });
     Webcam.attach('#my_camera'); // get webcam feed https://software.intel.com/en-us/forums/intel-distribution-of-openvino-toolkit/topic/803928
     setTimeout(main, 1000); // sleep 1s https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
 

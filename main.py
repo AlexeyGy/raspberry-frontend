@@ -1,7 +1,7 @@
 import logging
 import os
 import datetime
-
+from typing import List
 import numpy as np
 from flask import Flask, Response, jsonify, request, send_from_directory, render_template
 
@@ -26,7 +26,7 @@ IMAGE_FORMAT = (544, 320)
 net.setPreferableTarget(cv.dnn.DNN_TARGET_MYRIAD)
 
 
-def recognize(img: np.ndarray) -> []:
+def recognize(img: np.ndarray) -> List:
     """
     recognizes and transforms an image
     """
@@ -93,5 +93,5 @@ def main():
 
 
 @app.route('/images')
-def hello():
+def show_images():
     return render_template('images.html', images=os.listdir('static/images'))
