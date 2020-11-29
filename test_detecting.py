@@ -4,18 +4,19 @@ import unittest
 import cv2 as cv
 from model import recognize, set_up_inference
 
-NET = None
-
 
 class TestDetection(unittest.TestCase):
+    def __init__(self):
+        super().__init__()
+        self.net = None
+
     def setUp(self):
-        global NET
-        NET = set_up_inference()
+        self.net = set_up_inference()
 
     def test_detect_givenFullBody_expectDetection(self):
         img = cv.imread("test-images/person-exists.jpg")
-        self.assertEqual(len(recognize(img, NET)), 1)
+        self.assertEqual(len(recognize(img, self.net)), 1)
 
     def test_detect_givenJustFace_expectNoDetections(self):
         img = cv.imread("test-images/face-exists.jpg")
-        self.assertEqual(recognize(img, NET), [])
+        self.assertEqual(recognize(img, self.net), [])
