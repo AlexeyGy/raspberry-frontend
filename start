@@ -5,6 +5,6 @@ FLASK_APP=app.py FLASK_ENV=development \
     --cert adhoc \
     --without-threads
 
-# Improvements
+# Possible future Improvements
 # 1. port 443 https://superuser.com/questions/710253/allow-non-root-process-to-bind-to-port-80-and-443
 # 2. certificate https://pimylifeup.com/raspberry-pi-ssl-lets-encrypt/
