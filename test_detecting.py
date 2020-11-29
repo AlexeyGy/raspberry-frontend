@@ -1,4 +1,3 @@
-# this script performs a testwise detection of the content of test-images
 import unittest
 
 import cv2 as cv
