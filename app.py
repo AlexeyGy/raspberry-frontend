@@ -19,13 +19,13 @@ app = Flask(__name__, static_url_path="")
 # ---  application parameters ---
 OUTPUT_FOLDER = "static/images"  # where we output images to
 
-# global variable containing the neural network state
-NET = None
+# --- initialize the globally scoped neural network --
+NET = set_up_inference()
 
 
 def _save_detection(rectangles, img: np.array, folder=OUTPUT_FOLDER):
     # save the image
-    print(rectangles)
+    info(rectangles)
     if len(rectangles) > 0:
         for rectangle in rectangles:
             cv.rectangle(
@@ -63,6 +63,4 @@ def show_images():
 
 
 if __name__ == "__main__":
-    global net
-    NET = set_up_inference()
     app.run()
