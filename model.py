@@ -17,12 +17,10 @@ CONFIDENCE_THRESHOLD = 0.5  # when we make the cutoff on the bounding boxes
 
 
 def set_up_inference():
-
     net = cv.dnn.readNet(
         os.path.join(INPUT_FOLDER, NETWORK_NAME + ".bin"),
         os.path.join(INPUT_FOLDER, NETWORK_NAME + ".xml"),
     )
-
     net.setPreferableTarget(cv.dnn.DNN_TARGET_MYRIAD)
 
     return net
