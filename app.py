@@ -47,8 +47,7 @@ def _save_detection(rectangles, img: np.array, folder=OUTPUT_FOLDER):
 @app.route("/upload", methods=["POST"])
 def process():
     img = cv.imdecode(
-        np.fromstring(request.files["webcam"].read(),
-                      np.uint8), cv.IMREAD_COLOR
+        np.fromstring(request.files["webcam"].read(), np.uint8), cv.IMREAD_COLOR
     )
     rectangles = recognize(img, NET)
     _save_detection(rectangles, img)
@@ -65,7 +64,7 @@ def show_images():
     return render_template("images.html", images=os.listdir("static/images"))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     global net
     NET = set_up_inference()
     app.run()

@@ -6,12 +6,11 @@ NETWORK_NAME = "person-detection-retail-0013"
 USE_ACCELERATOR = True  # if we want to use the movidius accelerator or not?
 
 
-
 def set_up_inference():
 
     net = cv.dnn.readNet(
         os.path.join(INPUT_FOLDER, NETWORK_NAME + ".bin"),
-        os.path.join(INPUT_FOLDER, NETWORK_NAME + ".xml")
+        os.path.join(INPUT_FOLDER, NETWORK_NAME + ".xml"),
     )
 
     if USE_ACCELERATOR:
@@ -20,7 +19,8 @@ def set_up_inference():
         net.setPreferableTarget(cv.dnn.DNN_TARGET_CPU)
 
     return net
-    
+
+
 def recognize(img: np.ndarray, net) -> List:
     """
     recognizes and transforms an image

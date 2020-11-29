@@ -4,7 +4,8 @@ import unittest
 import cv2 as cv
 from main import recognize, set_up_inference
 
-NET =  None
+NET = None
+
 
 class TestDetection(unittest.TestCase):
     def setUp(self):
