@@ -19,13 +19,13 @@
     <script language="JavaScript">
         Webcam.set("constraints", { facingMode: "environment" });
           Webcam.attach("#my_camera"); // get webcam feed https://software.intel.com/en-us/forums/intel-distribution-of-openvino-toolkit/topic/803928
-          setTimeout(main, 1000); // sleep 1s https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
+          setTimeout(main, 5000); // sleep 5s so the webcam has some time to attach
     
           function main() {
             var ctx = document.getElementById("drawings").getContext("2d");
             setInterval(function () {
               take_snapshot();
-            }, 500); // every half second
+            }, 500); // every half second after the first two seconds
     
             function take_snapshot() {
               Webcam.snap(function (data_uri) {
@@ -54,7 +54,6 @@
             }
     
             function clearCanvas() {
-              ctx.beginPath();
               ctx.clearRect(-100, -100, 10000, 10000);
             }
           }
