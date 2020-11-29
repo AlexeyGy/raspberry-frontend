@@ -6,10 +6,6 @@ from model import recognize, set_up_inference
 
 
 class TestDetection(unittest.TestCase):
-    def __init__(self):
-        super().__init__()
-        self.net = None
-
     def setUp(self):
         self.net = set_up_inference()
 
