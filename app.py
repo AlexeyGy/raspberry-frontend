@@ -1,25 +1,23 @@
-from logging import info
-import os
 import datetime
-from typing import List
+import os
+from logging import info
+
+import cv2 as cv
 import numpy as np
 from flask import (
     Flask,
-    Response,
     jsonify,
     request,
     send_from_directory,
     render_template,
 )
 
-import cv2 as cv
+from model import recognize, set_up_inference
 
 app = Flask(__name__, static_url_path="")
 
 # ---  application parameters ---
-CONFIDENCE_THRESHOLD = 0.5  # when we make the cutoff on the bounding boxes
 OUTPUT_FOLDER = "static/images"  # where we output images to
-INPUT_FOLDER = "model/"  # where we read the neural network from
 
 # global variable containing the neural network state
 NET = None
@@ -40,7 +38,7 @@ def _save_detection(rectangles, img: np.array, folder=OUTPUT_FOLDER):
                 folder, f"{datetime.datetime.now().isoformat()}.jpg"
             )
 
-            logging.info(f"saving detection to {path_to_save_to}")
+            info(f"saving detection to {path_to_save_to}")
             cv.imwrite(path_to_save_to, img)
 
 

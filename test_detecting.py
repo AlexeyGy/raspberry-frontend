@@ -2,7 +2,7 @@
 import unittest
 
 import cv2 as cv
-from main import recognize, set_up_inference
+from model import recognize, set_up_inference
 
 NET = None
 

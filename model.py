@@ -1,9 +1,18 @@
 # --- neural network parameters ---
 # the image size that the neural network is trained to work on. Should only be changed if the model is switched.
+import os
+from logging import info
+from typing import List
+
+import numpy as np
+import cv2 as cv
+
+INPUT_FOLDER = "model/"  # where we read the neural network from
 IMAGE_FORMAT = (544, 320)
 # a pretrained model from openVino, see https://docs.openvinotoolkit.org/2018_R5/_docs_Retail_object_detection_pedestrian_rmnet_ssd_0013_caffe_desc_person_detection_retail_0013.html
 NETWORK_NAME = "person-detection-retail-0013"
 USE_ACCELERATOR = True  # if we want to use the movidius accelerator or not?
+CONFIDENCE_THRESHOLD = 0.5  # when we make the cutoff on the bounding boxes
 
 
 def set_up_inference():
