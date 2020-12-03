@@ -1,6 +1,7 @@
 import datetime
 import os
 from logging import info
+from typing import List
 
 import cv2 as cv
 import numpy as np
@@ -23,23 +24,24 @@ OUTPUT_FOLDER = "static/images"  # where we output images to
 NET = set_up_inference()
 
 
-def _save_detection(rectangles, img: np.array, folder=OUTPUT_FOLDER):
-    # save the image
-    info(rectangles)
-    if len(rectangles) > 0:
-        for rectangle in rectangles:
-            cv.rectangle(
-                img,
-                (rectangle[0], rectangle[1]),
-                (rectangle[2], rectangle[3]),
-                color=(0, 255, 0),
-            )
-            path_to_save_to = os.path.join(
-                folder, f"{datetime.datetime.now().isoformat()}.jpg"
-            )
+def _save_detection(rectangles: List, img: np.array, folder=OUTPUT_FOLDER):
+    if not rectangles:
+        return
 
-            info(f"saving detection to {path_to_save_to}")
-            cv.imwrite(path_to_save_to, img)
+    info(f"received {rectangles} to process")
+    for rectangle in rectangles:
+        cv.rectangle(
+            img,
+            (rectangle[0], rectangle[1]),
+            (rectangle[2], rectangle[3]),
+            color=(0, 255, 0),
+        )
+        path_to_save_to = os.path.join(
+            folder, f"{datetime.datetime.now().isoformat()}.jpg"
+        )
+
+        info(f"saving detection to {path_to_save_to}")
+        cv.imwrite(path_to_save_to, img)
 
 
 @app.route("/upload", methods=["POST"])
