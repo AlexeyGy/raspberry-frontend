@@ -61,7 +61,7 @@ def main():
 
 @app.route("/images")
 def show_images():
-    return render_template("images.html", images=os.listdir("static/images"))
+    return render_template("images.html", images=os.listdir(OUTPUT_FOLDER))
 
 
 if __name__ == "__main__":
