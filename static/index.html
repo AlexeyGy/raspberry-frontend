@@ -1,63 +1,66 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <title>webcam</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <script src="webcam.js"></script>
     <div>
-        <form action="./images">
-            <input type="submit" value="Open snapshots" />
-        </form>
-        <canvas id="drawings" style="z-index: 100; position: absolute" width="640px" height="480px"></canvas>
-        <div id="my_camera" style="width: 640px; height: 480px"></div>
+      <form action="./images">
+        <input type="submit" value="Open snapshots" />
+      </form>
+      <canvas
+        id="drawings"
+        style="z-index: 100; position: absolute"
+        width="640px"
+        height="480px"
+      ></canvas>
+      <div id="my_camera" style="width: 640px; height: 480px"></div>
     </div>
 
     <script language="JavaScript">
-        Webcam.set("constraints", { facingMode: "environment" });
-          Webcam.attach("#my_camera"); // get webcam feed https://software.intel.com/en-us/forums/intel-distribution-of-openvino-toolkit/topic/803928
-          setTimeout(main, 5000); // sleep 5s so the webcam has some time to attach
-    
-          function main() {
-            var ctx = document.getElementById("drawings").getContext("2d");
-            setInterval(function () {
-              take_snapshot();
-            }, 500); // every half second after the first two seconds
-    
-            function take_snapshot() {
-              Webcam.snap(function (data_uri) {
-                // snap complete, image data is in 'data_uri' see https://github.com/jhuckaby/webcamjs/blob/master/DOCS.md
-                Webcam.upload(
-                  data_uri,
-                  "https://raspberrypi:5000/upload",
-                  function (response_code, response_data) {
-                    if (response_code === 200) {
-                      var parsed_response_data = JSON.parse(response_data);
-                      clearCanvas();
-                      parsed_response_data.forEach((detection) => {
-                        drawRect(...detection);
-                      });
-                    }
-                  }
-                );
-              });
-            }
-            function drawRect(xmin, ymin, xmax, ymax) {
-              ctx.beginPath();
-    
-              ctx.lineWidth = 5;
-              ctx.rect(xmin, ymin, xmax - xmin, ymax - ymin);
-              ctx.stroke();
-            }
-    
-            function clearCanvas() {
-              ctx.clearRect(-100, -100, 10000, 10000);
-            }
-          }
-    </script>
-</body>
+      Webcam.set("constraints", { facingMode: "environment" }); // use the rear camera (called environment)
+      Webcam.attach("#my_camera"); // get webcam feed https://software.intel.com/en-us/forums/intel-distribution-of-openvino-toolkit/topic/803928
+      setTimeout(main, 5000); // sleep 5s so the webcam has some time to attach
 
+      function main() {
+        var ctx = document.getElementById("drawings").getContext("2d");
+        setInterval(function () {
+          take_snapshot();
+        }, 500); // every half second
+
+        function take_snapshot() {
+          Webcam.snap(function (data_uri) {
+            // snap complete, image data is in 'data_uri' see https://github.com/jhuckaby/webcamjs/blob/master/DOCS.md
+            Webcam.upload(
+              data_uri,
+              "https://raspberrypi:5000/upload",
+              function (response_code, response_data) {
+                if (response_code === 200) {
+                  var parsed_response_data = JSON.parse(response_data);
+                  clearCanvas();
+                  parsed_response_data.forEach((detection) => {
+                    drawRect(...detection);
+                  });
+                }
+              }
+            );
+          });
+        }
+        function drawRect(xmin, ymin, xmax, ymax) {
+          ctx.beginPath();
+
+          ctx.lineWidth = 5;
+          ctx.rect(xmin, ymin, xmax - xmin, ymax - ymin);
+          ctx.stroke();
+        }
+
+        function clearCanvas() {
+          ctx.clearRect(-100, -100, 10000, 10000);
+        }
+      }
+    </script>
+  </body>
 </html>
