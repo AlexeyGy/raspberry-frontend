@@ -13,7 +13,7 @@ IMAGE_FORMAT = (544, 320)
 
 # a pretrained model from OpenVino, see https://docs.openvinotoolkit.org/2018_R5/_docs_Retail_object_detection_pedestrian_rmnet_ssd_0013_caffe_desc_person_detection_retail_0013.html
 NETWORK_NAME = "person-detection-retail-0013"
-CONFIDENCE_THRESHOLD = 0.5  # when we make the cutoff on the bounding boxes
+CONFIDENCE_THRESHOLD = 0.8  # when we make the cutoff on the bounding boxes
 
 
 def set_up_inference():

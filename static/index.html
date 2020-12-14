@@ -25,14 +25,15 @@
             var ctx = document.getElementById("drawings").getContext("2d");
             setInterval(function () {
               take_snapshot();
-            }, 500); // every half second after the first two seconds
+
+            }, 100); // every half second after the first two seconds
     
             function take_snapshot() {
               Webcam.snap(function (data_uri) {
                 // snap complete, image data is in 'data_uri' see https://github.com/jhuckaby/webcamjs/blob/master/DOCS.md
                 Webcam.upload(
                   data_uri,
-                  "https://raspberrypi:5000/upload",
+                  `https://${location.hostname}:5000/upload`,
                   function (response_code, response_data) {
                     if (response_code === 200) {
                       var parsed_response_data = JSON.parse(response_data);

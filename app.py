@@ -46,6 +46,8 @@ def _save_detection(rectangles: List, img: np.array, folder=OUTPUT_FOLDER):
 
 @app.route("/upload", methods=["POST"])
 def process():
+
+    print('processing')
     img = cv.imdecode(
         np.fromstring(request.files["webcam"].read(), np.uint8), cv.IMREAD_COLOR
     )
