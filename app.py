@@ -1,6 +1,8 @@
 import datetime
 import os
+import logging
 from logging import info
+
 from typing import List
 
 import cv2 as cv
@@ -16,6 +18,7 @@ from flask import (
 from model import recognize, set_up_inference
 
 app = Flask(__name__, static_url_path="")
+logging.basicConfig(level=logging.INFO)
 
 # ---  application parameters ---
 OUTPUT_FOLDER = "static/images"  # where we output images to
@@ -47,7 +50,7 @@ def _save_detection(rectangles: List, img: np.array, folder=OUTPUT_FOLDER):
 @app.route("/upload", methods=["POST"])
 def process():
 
-    print('processing')
+    info("processing")
     img = cv.imdecode(
         np.fromstring(request.files["webcam"].read(), np.uint8), cv.IMREAD_COLOR
     )

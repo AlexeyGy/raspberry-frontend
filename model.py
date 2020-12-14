@@ -42,16 +42,14 @@ def recognize(img: np.ndarray, net) -> List:
     # see https://docs.openvinotoolkit.org/2019_R3.1/_models_intel_face_detection_adas_0001_description_face_detection_adas_0001.html
 
     detections = net_output.reshape(-1, 7)
-    info(f"detected #{len(detections)} people")
     for detection in detections:
         confidence = float(detection[2])
-        info(
-            f"filtering out a detection, confidence {confidence} is below the threshold of {CONFIDENCE_THRESHOLD}"
-        )
         if confidence >= CONFIDENCE_THRESHOLD:
             xmin = int(detection[3] * img.shape[1])
             ymin = int(detection[4] * img.shape[0])
             xmax = int(detection[5] * img.shape[1])
             ymax = int(detection[6] * img.shape[0])
             rectangles.append((xmin, ymin, xmax, ymax))
+            info(f"detected #{len(detections)} people")
+
     return rectangles
